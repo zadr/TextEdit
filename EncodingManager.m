@@ -93,23 +93,12 @@
 static EncodingManager *sharedInstance = nil;
 
 + (EncodingManager *)sharedInstance {
-    return sharedInstance ? sharedInstance : [[self alloc] init];
-}
-
-- (id)init {
-    if (sharedInstance) {		// We just have one instance of the EncodingManager class, return that one instead
-        [self release];
-    } else if (self = [super init]) {
-        sharedInstance = self;
-    }
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		sharedInstance = [[self alloc] init];
+	});
     return sharedInstance;
 }
-
-- (void)dealloc {
-    if (self != sharedInstance) [super dealloc];	// Don't free the shared instance
-}
-
-
 
 /* Sort using the equivalent Mac encoding as the major key. Secondary key is the actual encoding value, which works well enough. We treat Unicode encodings as special case, putting them at top of the list.
 */
