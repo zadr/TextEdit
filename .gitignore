@@ -1,0 +1,14 @@
+syntax: glob
+
+*build*
+
+*.DS_Store
+
+*.mode1v3
+*.pbxuser
+
+*.LSOverride
+
+*project.xcworkspace*
+*xcuserdata*
+
