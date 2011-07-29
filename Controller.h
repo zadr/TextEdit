@@ -3,13 +3,13 @@
 @class Preferences, DocumentPropertiesPanelController, LinePanelController;
 
 @interface Controller : NSObject {
-    IBOutlet Preferences *__weak preferencesController;
-    IBOutlet DocumentPropertiesPanelController *__weak propertiesController;
-    IBOutlet LinePanelController *__weak lineController;
+    IBOutlet Preferences *__unsafe_unretained preferencesController;
+    IBOutlet DocumentPropertiesPanelController *__unsafe_unretained propertiesController;
+    IBOutlet LinePanelController *__unsafe_unretained lineController;
 }
 
-@property (weak) Preferences *preferencesController;
-@property (weak) DocumentPropertiesPanelController *propertiesController;
-@property (weak) LinePanelController *lineController;
+@property (unsafe_unretained) Preferences *preferencesController;
+@property (unsafe_unretained) DocumentPropertiesPanelController *propertiesController;
+@property (unsafe_unretained) LinePanelController *lineController;
 
 @end
