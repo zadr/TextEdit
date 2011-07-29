@@ -325,12 +325,12 @@
 
 - (BOOL)lastSelectedIgnoreHTMLForURL:(NSURL *)url {
     NSDictionary *options = [customOpenSettings objectForKey:url];
-    return options ? [[options objectForKey:IgnoreHTML] unsignedIntegerValue] : [[NSUserDefaults standardUserDefaults] boolForKey:IgnoreHTML];;
+    return options ? (BOOL)[[options objectForKey:IgnoreHTML] unsignedIntegerValue] : [[NSUserDefaults standardUserDefaults] boolForKey:IgnoreHTML];;
 }
 
 - (BOOL)lastSelectedIgnoreRichForURL:(NSURL *)url {
     NSDictionary *options = [customOpenSettings objectForKey:url];
-    return options ? [[options objectForKey:IgnoreRichText] unsignedIntegerValue] : [[NSUserDefaults standardUserDefaults] boolForKey:IgnoreRichText];
+    return options ? (BOOL)[[options objectForKey:IgnoreRichText] unsignedIntegerValue] : [[NSUserDefaults standardUserDefaults] boolForKey:IgnoreRichText];
 }
 
 /* The user can change the default document type between Rich and Plain in Preferences. We override

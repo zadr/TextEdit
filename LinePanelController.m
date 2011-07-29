@@ -96,13 +96,13 @@
 	}
 	newSelection.length = end - newSelection.location;
     } else {		    // Forwards
-	NSInteger textLength = [textString length];
+	NSUInteger textLength = [textString length];
 	for (NSInteger cnt = (relative == 0) ? 1 : 0; cnt < fromLine; cnt++) {	// If not a relative selection, we start counting from 1, since the first line is "line 1" to the user
 	    if (newSelection.location == textLength) return NO;	    // Invalid specification
 	    NSRange lineRange = [textString lineRangeForRange:NSMakeRange(newSelection.location, 0)];
 	    newSelection.location = NSMaxRange(lineRange);
 	}
-	NSInteger end = newSelection.location;
+	NSUInteger end = newSelection.location;
 	for (NSInteger cnt = fromLine; cnt <= toLine; cnt++) {	// If not relative, the end of the range is an absolute line number; otherwise it's relative
 	    if (end == textLength) return NO;    // Invalid specification
 	    NSRange lineRange = [textString lineRangeForRange:NSMakeRange(end, 0)];

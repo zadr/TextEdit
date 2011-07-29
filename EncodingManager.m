@@ -73,8 +73,8 @@
 
 /* Do not allow selecting the "Customize" item and the separator before it. (Note that the customize item can be chosen and an action will be sent, but the selection doesn't change to it.)
 */
-- (void)selectItemAtIndex:(NSInteger)index {
-    if (index + 2 <= [self numberOfItems]) [super selectItemAtIndex:index];
+- (void)selectItemAtIndex:(NSInteger)itemIndex {
+    if (itemIndex + 2 <= [self numberOfItems]) [super selectItemAtIndex:itemIndex];
 }
 
 /* Update contents based on encodings list customization

@@ -291,7 +291,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     [text enumerateAttribute:NSParagraphStyleAttributeName inRange:NSMakeRange(0, [text length]) options:0 usingBlock:^(id paragraphStyle, NSRange paragraphStyleRange, BOOL *stop){
         NSWritingDirection writingDirection = paragraphStyle ? [(NSParagraphStyle *)paragraphStyle baseWritingDirection] : NSWritingDirectionNatural;
         // We also preserve NSWritingDirectionAttributeName (new in 10.6)
-        [text enumerateAttribute:NSWritingDirectionAttributeName inRange:paragraphStyleRange options:0 usingBlock:^(id value, NSRange attributeRange, BOOL *stop){
+        [text enumerateAttribute:NSWritingDirectionAttributeName inRange:paragraphStyleRange options:0 usingBlock:^(id value, NSRange attributeRange, BOOL *stopEnumerating){
             [value retain];
             [text setAttributes:textAttributes range:attributeRange];
             if (value) [text addAttribute:NSWritingDirectionAttributeName value:value range:attributeRange];
@@ -700,7 +700,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
 }
 
 - (BOOL)toggleRichWillLoseInformation {
-    NSInteger length = [textStorage length];
+    NSUInteger length = [textStorage length];
     NSRange range;
     NSDictionary *attrs;
     return ( [self isRichText] // Only rich -> plain can lose information.
@@ -1065,7 +1065,7 @@ In addition we overwrite this method as a way to tell that the document has been
 	NSString *dirPath = [[defaultDestination path] stringByDeletingPathExtension];
 	BOOL isDir;
 	if ([[NSFileManager defaultManager] fileExistsAtPath:dirPath isDirectory:&isDir] && isDir) {
-	    [savePanel setDirectory:dirPath];
+	    [savePanel setDirectoryURL:[NSURL fileURLWithPath:dirPath]];
 	}
     }
     

@@ -295,7 +295,7 @@
 	if (result == NSFileHandlingPanelOKButton) {	// Only if not cancelled
             NSArray *urls = [panel URLs];
 	    NSTextView *textView = [self firstTextView];
-	    NSInteger numberOfErrors = 0;
+	    NSUInteger numberOfErrors = 0;
 	    NSError *error = nil;
 	    NSMutableAttributedString *attachments = [[NSMutableAttributedString alloc] init];
 
@@ -660,13 +660,13 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
 
 /* Text view delegation messages */
 
-- (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
+- (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)clickedLink atIndex:(NSUInteger)charIndex {
     NSURL *linkURL = nil;
     
-    if ([link isKindOfClass:[NSURL class]]) {	// Handle NSURL links
-        linkURL = link;
-    } else if ([link isKindOfClass:[NSString class]]) {	// Handle NSString links
-        linkURL = [NSURL URLWithString:link relativeToURL:[[self document] fileURL]];
+    if ([clickedLink isKindOfClass:[NSURL class]]) {	// Handle NSURL links
+        linkURL = clickedLink;
+    } else if ([clickedLink isKindOfClass:[NSString class]]) {	// Handle NSString links
+        linkURL = [NSURL URLWithString:clickedLink relativeToURL:[[self document] fileURL]];
     }
     if (linkURL) {
         NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
