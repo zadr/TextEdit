@@ -54,6 +54,8 @@
 		41FA793A0B95E61A00FA84AA /* PrintPanelAccessoryController.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FA79380B95E61A00FA84AA /* PrintPanelAccessoryController.h */; };
 		41FA793B0B95E61A00FA84AA /* PrintPanelAccessoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA79390B95E61A00FA84AA /* PrintPanelAccessoryController.m */; };
 		41FA79A10B95F0F300FA84AA /* PrintPanelAccessory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA799F0B95F0F300FA84AA /* PrintPanelAccessory.nib */; };
+		92C9D96113E2940100CCA90B /* PrintingTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 92C9D95F13E2940100CCA90B /* PrintingTextView.h */; };
+		92C9D96213E2940100CCA90B /* PrintingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C9D96013E2940100CCA90B /* PrintingTextView.m */; };
 		FB69D020085E20E300646BBF /* DocumentWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = FB69D01E085E20E300646BBF /* DocumentWindowController.h */; };
 		FB69D021085E20E300646BBF /* DocumentWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB69D01F085E20E300646BBF /* DocumentWindowController.m */; };
 		FBF176CA084E77CE005F6CEB /* DocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = FBF176C8084E77CE005F6CEB /* DocumentController.h */; };
@@ -113,6 +115,8 @@
 		92A68B0A02972957007F9DE6 /* EncodingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncodingManager.h; sourceTree = "<group>"; };
 		92A68B0B02972957007F9DE6 /* EncodingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodingManager.m; sourceTree = "<group>"; };
 		92A68B1802972AB9007F9DE6 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SelectEncodingsPanel.nib; sourceTree = "<group>"; };
+		92C9D95F13E2940100CCA90B /* PrintingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintingTextView.h; sourceTree = "<group>"; };
+		92C9D96013E2940100CCA90B /* PrintingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintingTextView.m; sourceTree = "<group>"; };
 		F549503200E2A3BB01CA0CA4 /* DocumentWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = DocumentWindow.nib; sourceTree = "<group>"; };
 		FB69D01E085E20E300646BBF /* DocumentWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentWindowController.h; sourceTree = "<group>"; };
 		FB69D01F085E20E300646BBF /* DocumentWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentWindowController.m; sourceTree = "<group>"; };
@@ -173,6 +177,8 @@
 				6FE208FFFE93D5F211CA2CEA /* MultiplePageView.m */,
 				6FE20908FE93D5F211CA2CEA /* Preferences.h */,
 				6FE20900FE93D5F211CA2CEA /* Preferences.m */,
+				92C9D95F13E2940100CCA90B /* PrintingTextView.h */,
+				92C9D96013E2940100CCA90B /* PrintingTextView.m */,
 				176A30460E23EB0600857A3B /* FontNameTransformer.h */,
 				176A30470E23EB0600857A3B /* FontNameTransformer.m */,
 				92A68B0A02972957007F9DE6 /* EncodingManager.h */,
@@ -274,6 +280,7 @@
 				411131DA0D4FA70D00AF3A0E /* TextEditMisc.h in Headers */,
 				176A30480E23EB0600857A3B /* FontNameTransformer.h in Headers */,
 				176A304D0E23EB6B00857A3B /* TextEditDefaultsKeys.h in Headers */,
+				92C9D96113E2940100CCA90B /* PrintingTextView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +401,7 @@
 				41FA793B0B95E61A00FA84AA /* PrintPanelAccessoryController.m in Sources */,
 				413912170BD54AB800760A3D /* DocumentPropertiesPanelController.m in Sources */,
 				176A30490E23EB0600857A3B /* FontNameTransformer.m in Sources */,
+				92C9D96213E2940100CCA90B /* PrintingTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

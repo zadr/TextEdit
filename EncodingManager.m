@@ -1,6 +1,6 @@
 /*
         EncodingManager.m
-        Copyright (c) 2002-2009 by Apple Computer, Inc., all rights reserved.
+        Copyright (c) 2002-2011 by Apple Computer, Inc., all rights reserved.
         Author: Ali Ozer
         
         Helper class providing additional functionality for character encodings.
@@ -73,8 +73,8 @@
 
 /* Do not allow selecting the "Customize" item and the separator before it. (Note that the customize item can be chosen and an action will be sent, but the selection doesn't change to it.)
 */
-- (void)selectItemAtIndex:(NSInteger)itemIndex {
-    if (itemIndex + 2 <= [self numberOfItems]) [super selectItemAtIndex:itemIndex];
+- (void)selectItemAtIndex:(NSInteger)index {
+    if (index + 2 <= [self numberOfItems]) [super selectItemAtIndex:index];
 }
 
 /* Update contents based on encodings list customization
@@ -97,7 +97,7 @@ static EncodingManager *sharedInstance = nil;
 	dispatch_once(&onceToken, ^{
 		sharedInstance = [[self alloc] init];
 	});
-    return sharedInstance;
+	return sharedInstance;
 }
 
 /* Sort using the equivalent Mac encoding as the major key. Secondary key is the actual encoding value, which works well enough. We treat Unicode encodings as special case, putting them at top of the list.

@@ -1,6 +1,6 @@
 /*
         Document.m
-        Copyright (c) 1995-2009 by Apple Computer, Inc., all rights reserved.
+        Copyright (c) 1995-2011 by Apple Computer, Inc., all rights reserved.
         Author: David Remahl
  
         NSDocumentController subclass for TextEdit
@@ -61,7 +61,7 @@
 @implementation DocumentController
 
 - (void)awakeFromNib {
-    [self bind:@"autosavingDelay" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values." AutosaveDelay options:nil];
+    [self bind:@"autosavingDelay" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values." AutosavingDelay options:nil];
     customOpenSettings = [[NSMutableDictionary alloc] init];
     transientDocumentLock = [[NSLock alloc] init];
     displayDocumentLock = [[NSLock alloc] init];
@@ -325,12 +325,12 @@
 
 - (BOOL)lastSelectedIgnoreHTMLForURL:(NSURL *)url {
     NSDictionary *options = [customOpenSettings objectForKey:url];
-    return options ? (BOOL)[[options objectForKey:IgnoreHTML] unsignedIntegerValue] : [[NSUserDefaults standardUserDefaults] boolForKey:IgnoreHTML];;
+    return options ? [[options objectForKey:IgnoreHTML] unsignedIntegerValue] : [[NSUserDefaults standardUserDefaults] boolForKey:IgnoreHTML];;
 }
 
 - (BOOL)lastSelectedIgnoreRichForURL:(NSURL *)url {
     NSDictionary *options = [customOpenSettings objectForKey:url];
-    return options ? (BOOL)[[options objectForKey:IgnoreRichText] unsignedIntegerValue] : [[NSUserDefaults standardUserDefaults] boolForKey:IgnoreRichText];
+    return options ? [[options objectForKey:IgnoreRichText] unsignedIntegerValue] : [[NSUserDefaults standardUserDefaults] boolForKey:IgnoreRichText];
 }
 
 /* The user can change the default document type between Rich and Plain in Preferences. We override
@@ -341,3 +341,4 @@
 }
 
 @end
+
