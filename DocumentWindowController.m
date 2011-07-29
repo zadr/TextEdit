@@ -76,7 +76,7 @@
 
 - (id)init {
     if (self = [super initWithWindowNibName:@"DocumentWindow"]) {
-	layoutMgr = [[NSLayoutManager allocWithZone:[self zone]] init];
+	layoutMgr = [[NSLayoutManager alloc] init];
 	[layoutMgr setDelegate:self];
 	[layoutMgr setAllowsNonContiguousLayout:YES];
     }
@@ -91,11 +91,10 @@
     [[self firstTextView] removeObserver:self forKeyPath:@"backgroundColor"];
     [scrollView removeObserver:self forKeyPath:@"scaleFactor"];
     [[scrollView verticalScroller] removeObserver:self forKeyPath:@"scrollerStyle"];
-    [layoutMgr release];
     
     [self showRulerDelayed:NO];
     
-    [super dealloc]; // NSWindowController deallocates all the nib objects
+     // NSWindowController deallocates all the nib objects
 }
 
 /* This method can be called in three different situations (number three is a special TextEdit case):
@@ -106,7 +105,7 @@
    The window can be visible or hidden at the time of the message.
 */
 - (void)setDocument:(Document *)doc {
-    Document *oldDoc = [[self document] retain];
+    Document *oldDoc = [self document];
     
     if (oldDoc) {
         [layoutMgr unbind:@"hyphenationFactor"];
@@ -146,7 +145,6 @@
 	}
     }
     
-    [oldDoc release];
 }
 
 - (void)breakUndoCoalescing {
@@ -334,8 +332,6 @@
 		if (wrapper) {
 		    NSTextAttachment *attachment = [[NSTextAttachment alloc] initWithFileWrapper:wrapper];
 		    [attachments appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-		    [wrapper release];
-		    [attachment release];
 		} else {
 		    numberOfErrors++;
 		}
@@ -349,7 +345,6 @@
 		    [textView didChangeText];
 		}
 	    }
-	    [attachments release];
 	    
 	    [panel orderOut:nil];   // Strictly speaking not necessary, but if we put up an error sheet, a good idea for the panel to be dismissed first
             
@@ -439,12 +434,11 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
 }
 
 - (void)addPage {
-    NSZone *zone = [self zone];
     NSUInteger numberOfPages = [self numberOfPages];
     MultiplePageView *pagesView = [scrollView documentView];
     
     NSSize textSize = [pagesView documentSizeInPage];
-    NSTextContainer *textContainer = [[NSTextContainer allocWithZone:zone] initWithContainerSize:textSize];
+    NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:textSize];
     NSTextView *textView;
     NSUInteger orientation = [pagesView layoutOrientation];
     NSRect visibleRect = [pagesView visibleRect];
@@ -459,7 +453,7 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
         [pagesView scrollRectToVisible:visibleRect];
     }
 
-    textView = [[NSTextView allocWithZone:zone] initWithFrame:[pagesView documentRectForPageNumber:numberOfPages] textContainer:textContainer];
+    textView = [[NSTextView alloc] initWithFrame:[pagesView documentRectForPageNumber:numberOfPages] textContainer:textContainer];
     [textView setLayoutOrientation:orientation];
     [textView setHorizontallyResizable:NO];
     [textView setVerticallyResizable:NO];
@@ -472,8 +466,6 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
     [pagesView addSubview:textView];
     [[self layoutManager] addTextContainer:textContainer];
 
-    [textView release];
-    [textContainer release];
 }
 
 - (void)removePage {
@@ -493,7 +485,6 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
 
 - (void)setHasMultiplePages:(BOOL)pages force:(BOOL)force {
     NSTextLayoutOrientation orientation = NSTextLayoutOrientationHorizontal;
-    NSZone *zone = [self zone];
     
     if (!force && (hasMultiplePages == pages)) return;
     
@@ -512,7 +503,7 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
 
     if (hasMultiplePages) {
         NSTextView *textView = [self firstTextView];
-        MultiplePageView *pagesView = [[MultiplePageView allocWithZone:zone] init];
+        MultiplePageView *pagesView = [[MultiplePageView alloc] init];
 	
         [scrollView setDocumentView:pagesView];
 	
@@ -545,11 +536,10 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
             }
             [pagesView scrollRectToVisible:visRect];
         }
-        [pagesView release];
     } else {
         NSSize size = [scrollView contentSize];
-        NSTextContainer *textContainer = [[NSTextContainer allocWithZone:zone] initWithContainerSize:NSMakeSize(size.width, CGFLOAT_MAX)];
-        NSTextView *textView = [[NSTextView allocWithZone:zone] initWithFrame:NSMakeRect(0.0, 0.0, size.width, size.height) textContainer:textContainer];
+        NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(size.width, CGFLOAT_MAX)];
+        NSTextView *textView = [[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, size.width, size.height) textContainer:textContainer];
 	
         // Insert the single container as the first container in the layout manager before removing the existing pages in order to preserve the shared view state.
         [[self layoutManager] insertTextContainer:textContainer atIndex:0];
@@ -578,8 +568,6 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
         [scrollView setHasHorizontalScroller:((orientation == NSTextLayoutOrientationHorizontal) ? NO : YES)];
         [scrollView setHasVerticalScroller:((orientation == NSTextLayoutOrientationHorizontal) ? YES : NO)];
 
-        [textView release];
-        [textContainer release];
 	
         // Show the selected region
         [[self firstTextView] scrollRangeToVisible:[[self firstTextView] selectedRange]];

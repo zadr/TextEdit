@@ -87,8 +87,7 @@
 
 - (void)setPrintInfo:(NSPrintInfo *)anObject {
     if (printInfo != anObject) {
-        [printInfo autorelease];
-        printInfo = [anObject copyWithZone:[self zone]];
+        printInfo = [anObject copy];
         [self updateFrame];
         [self setNeedsDisplay:YES];	/* Because the page size or margins might change (could optimize this) */
     }
@@ -107,10 +106,6 @@
     }
 }
 
-- (void)dealloc {
-    [printInfo release];
-    [super dealloc];
-}
 
 - (NSSize)documentSizeInPage {
     return documentSizeForPrintInfo(printInfo);
@@ -139,16 +134,14 @@
 
 - (void)setLineColor:(NSColor *)color {
     if (color != lineColor) {
-        [lineColor autorelease];
-        lineColor = [color copyWithZone:[self zone]];
+        lineColor = [color copy];
         [self setNeedsDisplay:YES];
     }
 }
 
 - (void)setMarginColor:(NSColor *)color {
     if (color != marginColor) {
-        [marginColor autorelease];
-        marginColor = [color copyWithZone:[self zone]];
+        marginColor = [color copy];
         [self setNeedsDisplay:YES];
     }
 }
