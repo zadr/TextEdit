@@ -261,7 +261,7 @@
 - (void)addDocument:(NSDocument *)newDoc {
     Document *firstDoc;
     NSArray *documents = [self documents];
-    if ([documents count] == 1 && (firstDoc = [documents objectAtIndex:0]) && [firstDoc isTransient]) {
+    if ([documents count] == 1 && (firstDoc = [documents objectAtIndex:0]) && [firstDoc transient]) {
         [firstDoc setTransient:NO];
     }
     [super addDocument:newDoc];

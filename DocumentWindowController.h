@@ -10,16 +10,14 @@
 }
 
 // Convenience initializer. Loads the correct nib automatically.
-- (id)init;
 
-- (NSUInteger)numberOfPages;
-
-- (NSView *)documentView;
+@property (nonatomic, readonly) NSUInteger numberOfPages;
+@property (nonatomic, readonly) NSView *documentView;
 
 - (void)breakUndoCoalescing;
 
 /* Layout orientation sections */
-- (NSArray *)layoutOrientationSections;
+@property (nonatomic, readonly) NSArray *layoutOrientationSections;
 
 - (IBAction)chooseAndAttachFiles:(id)sender;
 

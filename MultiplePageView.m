@@ -43,6 +43,12 @@
 #import "TextEditMisc.h"
 
 @implementation MultiplePageView
+@synthesize numberOfPages;
+@synthesize printInfo;
+@synthesize pageSeparatorHeight;
+@synthesize lineColor;
+@synthesize marginColor;
+@synthesize layoutOrientation;
 
 - (id)initWithFrame:(NSRect)rect {
     if ((self = [super initWithFrame:rect])) {
@@ -88,10 +94,6 @@
     }
 }
 
-- (NSPrintInfo *)printInfo {
-    return printInfo;
-}
-
 - (void)setNumberOfPages:(NSUInteger)num {
     if (numPages != num) {
 	NSRect oldFrame = [self frame];
@@ -103,14 +105,6 @@
 	    [self setNeedsDisplayInRect:NSMakeRect(oldFrame.origin.x, NSMaxY(oldFrame), oldFrame.size.width, NSMaxY(newFrame) - NSMaxY(oldFrame))];
         }
     }
-}
-
-- (NSUInteger)numberOfPages {
-    return numPages;
-}
-    
-- (CGFloat)pageSeparatorHeight {
-    return 5.0;
 }
 
 - (void)dealloc {
@@ -151,10 +145,6 @@
     }
 }
 
-- (NSColor *)lineColor {
-    return lineColor;
-}
-
 - (void)setMarginColor:(NSColor *)color {
     if (color != marginColor) {
         [marginColor autorelease];
@@ -163,20 +153,12 @@
     }
 }
 
-- (NSColor *)marginColor {
-    return marginColor;
-}
-
 - (void)setLayoutOrientation:(NSTextLayoutOrientation)orientation {
     if (orientation != layoutOrientation) {
         layoutOrientation = orientation;
 
         [self updateFrame];
     }
-}
-
-- (NSTextLayoutOrientation)layoutOrientation {
-    return layoutOrientation;
 }
 
 - (void)drawRect:(NSRect)rect {

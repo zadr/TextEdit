@@ -23,9 +23,6 @@ typedef NSInteger HTMLStylingMode;
 - (IBAction)changePlainTextFont:(id)sender;	/* Request to change the plain text font */
 - (void)changeFont:(id)fontManager;	/* Sent by the font manager */
 
-- (NSFont *)richTextFont;
-- (void)setRichTextFont:(NSFont *)newFont;
-- (NSFont *)plainTextFont;
-- (void)setPlainTextFont:(NSFont *)newFont;
-
+@property (nonatomic, assign) NSFont *richTextFont;
+@property (nonatomic, assign) NSFont *plainTextFont;
 @end

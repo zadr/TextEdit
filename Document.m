@@ -61,6 +61,20 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
 
 
 @implementation Document
+@synthesize readOnly = isReadOnly;
+@synthesize backgroundColor = color;
+@synthesize openedIgnoringRichText;
+@synthesize viewSize;
+@synthesize encoding;
+@synthesize encodingForSaving;
+@synthesize converted;
+@synthesize lossy;
+@synthesize originalOrientationSections;
+@synthesize textStorage;
+@synthesize scaleFactor;
+@synthesize hyphenationFactor;
+@synthesize hasMultiplePages;
+@synthesize transient;
 
 - (id)init {
     if (self = [super init]) {
@@ -116,7 +130,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     return [self readFromURL:absoluteURL ofType:typeName encoding:[docController lastSelectedEncodingForURL:absoluteURL] ignoreRTF:[docController lastSelectedIgnoreRichForURL:absoluteURL] ignoreHTML:[docController lastSelectedIgnoreHTMLForURL:absoluteURL] error:outError];
 }
 
-- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName encoding:(NSStringEncoding)encoding ignoreRTF:(BOOL)ignoreRTF ignoreHTML:(BOOL)ignoreHTML error:(NSError **)outError {
+- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName encoding:(NSStringEncoding)withEncoding ignoreRTF:(BOOL)ignoreRTF ignoreHTML:(BOOL)ignoreHTML error:(NSError **)outError {
     NSMutableDictionary *options = [NSMutableDictionary dictionaryWithCapacity:5];
     NSDictionary *docAttrs;
     id val, paperSizeVal, viewSizeVal;
@@ -128,10 +142,10 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     [[self undoManager] disableUndoRegistration];
     
     [options setObject:absoluteURL forKey:NSBaseURLDocumentOption];
-    if (encoding != NoStringEncoding) {
-        [options setObject:[NSNumber numberWithUnsignedInteger:encoding] forKey:NSCharacterEncodingDocumentOption];
+    if (withEncoding != NoStringEncoding) {
+        [options setObject:[NSNumber numberWithUnsignedInteger:withEncoding] forKey:NSCharacterEncodingDocumentOption];
     }
-    [self setEncoding:encoding];
+    [self setEncoding:withEncoding];
     
     // Check type to see if we should load the document as plain. Note that this check isn't always conclusive, which is why we do another check below, after the document has been loaded (and correctly categorized).
     NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
@@ -447,44 +461,6 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     [super dealloc];
 }
 
-- (CGFloat)scaleFactor {
-    return scaleFactor;
-}
-
-- (void)setScaleFactor:(CGFloat)newScaleFactor {
-    scaleFactor = newScaleFactor;
-}
-
-- (NSSize)viewSize {
-    return viewSize;
-}
-
-- (void)setViewSize:(NSSize)size {
-    viewSize = size;
-}
-
-- (void)setReadOnly:(BOOL)flag {
-    isReadOnly = flag;
-}
-
-- (BOOL)isReadOnly {
-    return isReadOnly;
-}
-
-- (void)setBackgroundColor:(NSColor *)color {
-    id oldCol = backgroundColor;
-    backgroundColor = [color copy];
-    [oldCol release];
-}
-
-- (NSColor *)backgroundColor {
-    return backgroundColor;
-}
-
-- (NSTextStorage *)textStorage {
-    return textStorage;
-}
-
 - (NSSize)paperSize {
     return [[self printInfo] paperSize];
 }
@@ -499,85 +475,10 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     }
 }
 
-/* Layout orientation sections */
-- (void)setOriginalOrientationSections:(NSArray *)array {
-    [originalOrientationSections release];
-    originalOrientationSections = [array copy];
-}
-
-- (NSArray *)originalOrientationSections {
-    return originalOrientationSections; 
-}
-
-/* Hyphenation related methods.
-*/
-- (void)setHyphenationFactor:(float)factor {
-    hyphenationFactor = factor;
-}
-
-- (float)hyphenationFactor {
-    return hyphenationFactor;
-}
-
-/* Encoding...
-*/
-- (NSUInteger)encoding {
-    return documentEncoding;
-}
-
-- (void)setEncoding:(NSUInteger)encoding {
-    documentEncoding = encoding;
-}
-
-/* This is the encoding used for saving; valid only during a save operation
-*/
-- (NSUInteger)encodingForSaving {
-    return documentEncodingForSaving;
-}
-
-- (void)setEncodingForSaving:(NSUInteger)encoding {
-    documentEncodingForSaving = encoding;
-}
-
-
-- (BOOL)isConverted {
-    return convertedDocument;
-}
-
-- (void)setConverted:(BOOL)flag {
-    convertedDocument = flag;
-}
-
-- (BOOL)isLossy {
-    return lossyDocument;
-}
-
-- (void)setLossy:(BOOL)flag {
-    lossyDocument = flag;
-}
-
-- (BOOL)isOpenedIgnoringRichText {
-    return openedIgnoringRichText;
-}
-
-- (void)setOpenedIgnoringRichText:(BOOL)flag {
-    openedIgnoringRichText = flag;
-}
-
-/* A transient document is an untitled document that was opened automatically. If a real document is opened before the transient document is edited, the real document should replace the transient. If a transient document is edited, it ceases to be transient. 
-*/
-- (BOOL)isTransient {
-    return transient;
-}
-
-- (void)setTransient:(BOOL)flag {
-    transient = flag;
-}
-
 /* We can't replace transient document that have sheets on them.
 */
 - (BOOL)isTransientAndCanBeReplaced {
-    if (![self isTransient]) return NO;
+    if (![self transient]) return NO;
     for (NSWindowController *controller in [self windowControllers]) if ([[controller window] attachedSheet]) return NO;
     return YES;
 }
@@ -754,14 +655,6 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
 		     || ![[self defaultTextAttributes:YES] isEqual:attrs]) // ...or differ from the default, then...
 		 )) // ...we will lose styling information.
 	     || [self hasDocumentProperties]); // We will also lose information if the document has properties.
-}
-
-- (BOOL)hasMultiplePages {
-    return hasMultiplePages;
-}
-
-- (void)setHasMultiplePages:(BOOL)flag {
-    hasMultiplePages = flag;
 }
 
 - (IBAction)togglePageBreaks:(id)sender {
@@ -1046,7 +939,7 @@ In addition we overwrite this method as a way to tell that the document has been
     BOOL containsAttachments = [textStorage containsAttachments];
     
     if ([self fileURL]) {
-	if ([self isConverted]) {
+	if ([self converted]) {
 	    NSString *newFormatName = containsAttachments ? NSLocalizedString(@"rich text with graphics (RTFD)", @"Rich text with graphics file format name, displayed in alert") 
 							  : NSLocalizedString(@"rich text", @"Rich text file format name, displayed in alert");
 	    error = [NSError errorWithDomain:TextEditErrorDomain code:TextEditSaveErrorConvertedDocument userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -1146,9 +1039,9 @@ In addition we overwrite this method as a way to tell that the document has been
 	string = [textStorage string];
 	if (cnt * [string length] < 5000000) {	// Otherwise it's just too slow; would be nice to make this more dynamic. With large docs and many encodings, the items just won't be validated.
 	    while (cnt--) {	// No reason go backwards except to use one variable instead of two
-                NSStringEncoding encoding = (NSStringEncoding)[[[encodingPopup itemAtIndex:cnt] representedObject] unsignedIntegerValue];
+                NSStringEncoding selectedEncoding = (NSStringEncoding)[[[encodingPopup itemAtIndex:cnt] representedObject] unsignedIntegerValue];
 		// Hardwire some encodings known to allow any content
-		if ((encoding != NoStringEncoding) && (encoding != NSUnicodeStringEncoding) && (encoding != NSUTF8StringEncoding) && (encoding != NSNonLossyASCIIStringEncoding) && ![string canBeConvertedToEncoding:encoding]) {
+		if ((selectedEncoding != NoStringEncoding) && (selectedEncoding != NSUnicodeStringEncoding) && (selectedEncoding != NSUTF8StringEncoding) && (selectedEncoding != NSNonLossyASCIIStringEncoding) && ![string canBeConvertedToEncoding:selectedEncoding]) {
 		    [[encodingPopup itemAtIndex:cnt] setEnabled:NO];
 		}
 	    }

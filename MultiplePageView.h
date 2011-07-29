@@ -7,20 +7,15 @@
     NSUInteger numPages;
     NSTextLayoutOrientation layoutOrientation;
 }
+@property (nonatomic, copy) NSPrintInfo *printInfo;
+@property (nonatomic, readonly) CGFloat pageSeparatorHeight;
+@property (nonatomic, readonly) NSSize documentSizeInPage;	/* Returns the area where the document can draw */
 
-- (void)setPrintInfo:(NSPrintInfo *)anObject;
-- (NSPrintInfo *)printInfo;
-- (CGFloat)pageSeparatorHeight;
-- (NSSize)documentSizeInPage;	/* Returns the area where the document can draw */
 - (NSRect)documentRectForPageNumber:(NSUInteger)pageNumber;	/* First page is page 0 */
 - (NSRect)pageRectForPageNumber:(NSUInteger)pageNumber;	/* First page is page 0 */
-- (void)setNumberOfPages:(NSUInteger)num;
-- (NSUInteger)numberOfPages;
-- (void)setLineColor:(NSColor *)color;
-- (NSColor *)lineColor;
-- (void)setMarginColor:(NSColor *)color;
-- (NSColor *)marginColor;
-- (void)setLayoutOrientation:(NSTextLayoutOrientation)orientation;
-- (NSTextLayoutOrientation)layoutOrientation;
 
+@property (nonatomic) NSUInteger numberOfPages;
+@property (nonatomic, copy) NSColor *lineColor;
+@property (nonatomic, copy) NSColor *marginColor;
+@property (nonatomic) NSTextLayoutOrientation layoutOrientation;
 @end

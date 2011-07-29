@@ -53,9 +53,9 @@
 - (id)transformedValue:(id)value {
     if (value && [value isKindOfClass:[NSFont class]]) {
         return [NSString stringWithFormat:@"%@ %g", [value displayName], [value pointSize]];
-    } else {
-        return @"";
     }
+
+    return @"";
 }
 
 @end

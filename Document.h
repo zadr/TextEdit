@@ -6,11 +6,12 @@
     BOOL setUpPrintInfoDefaults;	/* YES the first time -printInfo is called */
     
     // Document data
+    BOOL openedIgnoringRichText;       /* Setting at the the time the doc was open (so revert does the same thing) */
     NSTextStorage *textStorage;		/* The (styled) text content of the document */
     CGFloat scaleFactor;		/* The scale factor retreived from file */
     BOOL isReadOnly;			/* The document is locked and should not be modified */
     NSColor *backgroundColor;		/* The color of the document's background */
-    CGFloat hyphenationFactor;		/* Hyphenation factor in range 0.0-1.0 */
+    float hyphenationFactor;		/* Hyphenation factor in range 0.0-1.0 */
     NSSize viewSize;			/* The view size, as stored in an RTF document. Can be NSZeroSize */
     BOOL hasMultiplePages;		/* Whether the document prefers a paged display */
     
@@ -24,10 +25,9 @@
     NSArray *keywords;			/* Corresponds to NSKeywordsDocumentAttribute */
     
     // Information about how the document was created
-    BOOL openedIgnoringRichText;	/* Setting at the the time the doc was open (so revert does the same thing) */
     NSStringEncoding documentEncoding;	/* NSStringEncoding used to interpret / save the document */
     BOOL convertedDocument;		/* Converted (or filtered) from some other format (and hence not writable) */
-    BOOL lossyDocument;			/* Loaded lossily, so might not be a good idea to overwrite */
+    BOOL lossy;			/* Loaded lossily, so might not be a good idea to overwrite */
     BOOL transient;			/* Untitled document automatically opened and never modified */
     NSURL *defaultDestination;		/* A hint as to where save dialog should default, used if -fileURL is nil */
     NSArray *originalOrientationSections; /* An array of dictionaries. Each describing the text layout orientation for a page */
@@ -42,58 +42,45 @@
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName encoding:(NSStringEncoding)encoding ignoreRTF:(BOOL)ignoreRTF ignoreHTML:(BOOL)ignoreHTML error:(NSError **)outError;
 
 /* Is the document rich? */
-- (BOOL)isRichText;
-- (void)setRichText:(BOOL)flag;
+@property (nonatomic, getter=isRichText) BOOL richText;
 
 /* Is the document read-only? */
-- (BOOL)isReadOnly;
-- (void)setReadOnly:(BOOL)flag;
+@property (nonatomic, getter=isReadOnly) BOOL readOnly;
 
 /* Document background color */
-- (NSColor *)backgroundColor;
-- (void)setBackgroundColor:(NSColor *)color;
+@property (nonatomic, copy) NSColor *backgroundColor;
 
 /* The encoding of the document... */
-- (NSUInteger)encoding;
-- (void)setEncoding:(NSUInteger)encoding;
+@property (nonatomic) NSStringEncoding encoding;
 
 /* Encoding of the document chosen when saving */
-- (NSUInteger)encodingForSaving;
-- (void)setEncodingForSaving:(NSUInteger)encoding;
+@property (nonatomic) NSStringEncoding encodingForSaving;
 
 /* Whether document was converted from some other format (filter services) */
-- (BOOL)isConverted;
-- (void)setConverted:(BOOL)flag;
+@property (nonatomic) BOOL converted;
 
 /* Whether document was opened ignoring rich text */
-- (BOOL)isOpenedIgnoringRichText;
-- (void)setOpenedIgnoringRichText:(BOOL)flag;
+/* Setting at the the time the doc was open (so revert does the same thing) */
+@property (nonatomic, getter=isOpenedIgnoringRichText) BOOL openedIgnoringRichText; 
 
 /* Whether document was loaded lossily */
-- (BOOL)isLossy;
-- (void)setLossy:(BOOL)flag;
+@property (nonatomic, getter=isLossy) BOOL lossy;
 
 /* Hyphenation factor (0.0-1.0, 0.0 == disabled) */
-- (float)hyphenationFactor;
-- (void)setHyphenationFactor:(float)factor;
+@property (nonatomic) float hyphenationFactor;
 
 /* View size (as it should be saved in a RTF file) */
-- (NSSize)viewSize;
-- (void)setViewSize:(NSSize)newSize;
+@property (nonatomic) NSSize viewSize;
 
 /* Scale factor; 1.0 is 100% */
-- (CGFloat)scaleFactor;
-- (void)setScaleFactor:(CGFloat)scaleFactor;
+@property (nonatomic) CGFloat scaleFactor;
 
 /* Attributes */
-- (NSTextStorage *)textStorage;
-- (void)setTextStorage:(id)ts; // This will _copy_ the contents of the NS[Attributed]String ts into the document's textStorage.
+@property (nonatomic, copy) NSTextStorage *textStorage; // This will _copy_ the contents of the NS[Attributed]String ts into the document's textStorage.
 
 /* Page-oriented methods */
-- (void)setHasMultiplePages:(BOOL)flag;
-- (BOOL)hasMultiplePages;
-- (NSSize)paperSize;
-- (void)setPaperSize:(NSSize)size;
+@property (nonatomic) BOOL hasMultiplePages;
+@property (nonatomic) NSSize paperSize;
 
 /* Action methods */
 - (IBAction)toggleReadOnly:(id)sender;
@@ -108,18 +95,16 @@
 - (void)applyDefaultTextAttributes:(BOOL)forRichText;
 
 /* Document properties */
-- (NSDictionary *)documentPropertyToAttributeNameMappings;
-- (NSArray *)knownDocumentProperties;
-- (void)clearDocumentProperties;
+@property (nonatomic, getter=hasDocumentProperties, readonly) BOOL documentProperties;
+@property (nonatomic, readonly) NSDictionary *documentPropertyToAttributeNameMappings;
+@property (nonatomic, readonly) NSArray *knownDocumentProperties;
 - (void)setDocumentPropertiesToDefaults;
-- (BOOL)hasDocumentProperties;
+- (void)clearDocumentProperties;
 
 /* Transient documents */
-- (BOOL)isTransient;
-- (void)setTransient:(BOOL)flag;
-- (BOOL)isTransientAndCanBeReplaced;
+@property (nonatomic) BOOL transient;
+@property (nonatomic, getter=isTransientAndCanBeReplaced, readonly) BOOL transientAndCanBeReplaced;
 
 /* Layout orientation sections */
-- (NSArray *)originalOrientationSections;
-- (void)setOriginalOrientationSections:(NSArray *)array;
+@property (nonatomic, copy) NSArray *originalOrientationSections;
 @end

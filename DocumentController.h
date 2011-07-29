@@ -21,7 +21,7 @@
 
 - (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)types;
 
-- (Document *)transientDocumentToReplace;
+@property (nonatomic, readonly) Document *transientDocumentToReplace;
 - (void)displayDocument:(NSDocument *)doc;
 - (void)replaceTransientDocument:(NSArray *)documents;
 
