@@ -1,6 +1,8 @@
 #import <Cocoa/Cocoa.h>
 
-@class Preferences, DocumentPropertiesPanelController, LinePanelController;
+@class Preferences;
+@class DocumentPropertiesPanelController;
+@class LinePanelController;
 
 @interface Controller : NSObject {
     IBOutlet Preferences *__unsafe_unretained preferencesController;

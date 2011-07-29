@@ -41,6 +41,7 @@
 #import "DocumentWindowController.h"
 #import "Document.h"
 #import "MultiplePageView.h"
+#import "ScalingScrollView.h"
 #import "TextEditDefaultsKeys.h"
 #import "TextEditMisc.h"
 #import "TextEditErrors.h"

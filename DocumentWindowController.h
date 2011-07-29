@@ -1,5 +1,6 @@
 #import <Cocoa/Cocoa.h>
-#import "ScalingScrollView.h"
+
+@class ScalingScrollView;
 
 @interface DocumentWindowController : NSWindowController <NSLayoutManagerDelegate, NSTextViewDelegate> {
     IBOutlet ScalingScrollView *scrollView;
