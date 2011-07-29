@@ -189,7 +189,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     val = [docAttrs objectForKey:NSCharacterEncodingDocumentAttribute];
     [self setEncoding:(val ? [val unsignedIntegerValue] : NoStringEncoding)];
     
-    if (val = [docAttrs objectForKey:NSConvertedDocumentAttribute]) {
+    if ((val = [docAttrs objectForKey:NSConvertedDocumentAttribute])) {
         [self setConverted:([val integerValue] > 0)];	// Indicates filtered
         [self setLossy:([val integerValue] < 0)];	// Indicates lossily loaded
     }
@@ -357,7 +357,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     
     if (docType) [dict setObject:docType forKey:NSDocumentTypeDocumentAttribute];
     if ([self hasMultiplePages] && ([self scaleFactor] != 1.0)) [dict setObject:[NSNumber numberWithDouble:[self scaleFactor] * 100.0] forKey:NSViewZoomDocumentAttribute];
-    if (val = [self backgroundColor]) [dict setObject:val forKey:NSBackgroundColorDocumentAttribute];
+    if ((val = [self backgroundColor])) [dict setObject:val forKey:NSBackgroundColorDocumentAttribute];
     
     if (docType == NSPlainTextDocumentType) {
         NSStringEncoding enc = [self encodingForSaving];
@@ -703,12 +703,12 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     NSUInteger length = [textStorage length];
     NSRange range;
     NSDictionary *attrs;
-    return ( [self isRichText] // Only rich -> plain can lose information.
+    return ( ([self isRichText] // Only rich -> plain can lose information.
 	     && ((length > 0) // If the document contains characters and...
 		 && (attrs = [textStorage attributesAtIndex:0 effectiveRange:&range])  // ...they have attributes...
 		 && ((range.length < length) // ...which either are not the same for the whole document...
 		     || ![[self defaultTextAttributes:YES] isEqual:attrs]) // ...or differ from the default, then...
-		 ) // ...we will lose styling information.
+		 )) // ...we will lose styling information.
 	     || [self hasDocumentProperties]); // We will also lose information if the document has properties.
 }
 
