@@ -26,17 +26,17 @@
 			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
 			<integer value="1" key="NS.object.0"/>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.RootObjects" id="410603147">
-			<object class="NSCustomObject" id="657586237">
+		<array class="NSMutableArray" key="IBDocument.RootObjects" id="424770870">
+			<object class="NSCustomObject" id="597137321">
 				<string key="NSClassName">LinePanelController</string>
 			</object>
-			<object class="NSCustomObject" id="233053192">
+			<object class="NSCustomObject" id="3052942">
 				<string key="NSClassName">FirstResponder</string>
 			</object>
-			<object class="NSCustomObject" id="594137273">
+			<object class="NSCustomObject" id="566445917">
 				<string key="NSClassName">NSApplication</string>
 			</object>
-			<object class="NSWindowTemplate" id="778157597">
+			<object class="NSWindowTemplate" id="192380912">
 				<int key="NSWindowStyleMask">3</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{60, 56}, {249, 62}}</string>
@@ -50,28 +50,28 @@
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{213, 30}</string>
-				<object class="NSView" key="NSWindowView" id="497409755">
+				<object class="NSView" key="NSWindowView" id="90929162">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
-						<object class="NSTextField" id="282786738">
-							<reference key="NSNextResponder" ref="497409755"/>
+						<object class="NSTextField" id="770288842">
+							<reference key="NSNextResponder" ref="90929162"/>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{20, 20}, {116, 22}}</string>
-							<reference key="NSSuperview" ref="497409755"/>
+							<reference key="NSSuperview" ref="90929162"/>
 							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSTextFieldCell" key="NSCell" id="665705473">
+							<object class="NSTextFieldCell" key="NSCell" id="896360955">
 								<int key="NSCellFlags">-1804468671</int>
 								<int key="NSCellFlags2">268436480</int>
 								<string key="NSContents"/>
-								<object class="NSFont" key="NSSupport" id="45404637">
+								<object class="NSFont" key="NSSupport" id="191261955">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
 									<int key="NSfFlags">1044</int>
 								</object>
 								<string key="NSPlaceholderString">Line number</string>
-								<reference key="NSControlView" ref="282786738"/>
+								<reference key="NSControlView" ref="770288842"/>
 								<bool key="NSDrawsBackground">YES</bool>
 								<object class="NSColor" key="NSBackgroundColor">
 									<int key="NSColorSpace">6</int>
@@ -93,22 +93,22 @@
 								</object>
 							</object>
 						</object>
-						<object class="NSButton" id="795465199">
-							<reference key="NSNextResponder" ref="497409755"/>
+						<object class="NSButton" id="245663918">
+							<reference key="NSNextResponder" ref="90929162"/>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{145, 12}, {90, 32}}</string>
-							<reference key="NSSuperview" ref="497409755"/>
+							<reference key="NSSuperview" ref="90929162"/>
 							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="396146411">
+							<object class="NSButtonCell" key="NSCell" id="348599232">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">Select</string>
-								<reference key="NSSupport" ref="45404637"/>
-								<reference key="NSControlView" ref="795465199"/>
+								<reference key="NSSupport" ref="191261955"/>
+								<reference key="NSControlView" ref="245663918"/>
 								<int key="NSButtonFlags">-2038284033</int>
 								<int key="NSButtonFlags2">1</int>
-								<reference key="NSAlternateImage" ref="45404637"/>
+								<reference key="NSAlternateImage" ref="191261955"/>
 								<string key="NSAlternateContents"/>
 								<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
 								<int key="NSPeriodicDelay">200</int>
@@ -133,32 +133,32 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">window</string>
-						<reference key="source" ref="657586237"/>
-						<reference key="destination" ref="778157597"/>
+						<reference key="source" ref="597137321"/>
+						<reference key="destination" ref="192380912"/>
 					</object>
 					<int key="connectionID">12</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">lineField</string>
-						<reference key="source" ref="657586237"/>
-						<reference key="destination" ref="282786738"/>
+						<reference key="source" ref="597137321"/>
+						<reference key="destination" ref="770288842"/>
 					</object>
 					<int key="connectionID">13</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">selectClicked:</string>
-						<reference key="source" ref="657586237"/>
-						<reference key="destination" ref="795465199"/>
+						<reference key="source" ref="597137321"/>
+						<reference key="destination" ref="245663918"/>
 					</object>
 					<int key="connectionID">14</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">lineFieldChanged:</string>
-						<reference key="source" ref="657586237"/>
-						<reference key="destination" ref="282786738"/>
+						<reference key="source" ref="597137321"/>
+						<reference key="destination" ref="770288842"/>
 					</object>
 					<int key="connectionID">15</int>
 				</object>
@@ -168,68 +168,68 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
 						<array key="object" id="0"/>
-						<reference key="children" ref="410603147"/>
+						<reference key="children" ref="424770870"/>
 						<nil key="parent"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">-2</int>
-						<reference key="object" ref="657586237"/>
+						<reference key="object" ref="597137321"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">File's Owner</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">-1</int>
-						<reference key="object" ref="233053192"/>
+						<reference key="object" ref="3052942"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">First Responder</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">7</int>
-						<reference key="object" ref="778157597"/>
+						<reference key="object" ref="192380912"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="497409755"/>
+							<reference ref="90929162"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Panel</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">8</int>
-						<reference key="object" ref="497409755"/>
+						<reference key="object" ref="90929162"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="282786738"/>
-							<reference ref="795465199"/>
+							<reference ref="770288842"/>
+							<reference ref="245663918"/>
 						</array>
-						<reference key="parent" ref="778157597"/>
+						<reference key="parent" ref="192380912"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">9</int>
-						<reference key="object" ref="282786738"/>
+						<reference key="object" ref="770288842"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="665705473"/>
+							<reference ref="896360955"/>
 						</array>
-						<reference key="parent" ref="497409755"/>
+						<reference key="parent" ref="90929162"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">10</int>
-						<reference key="object" ref="795465199"/>
+						<reference key="object" ref="245663918"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="396146411"/>
+							<reference ref="348599232"/>
 						</array>
-						<reference key="parent" ref="497409755"/>
+						<reference key="parent" ref="90929162"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">18</int>
-						<reference key="object" ref="665705473"/>
-						<reference key="parent" ref="282786738"/>
+						<reference key="object" ref="896360955"/>
+						<reference key="parent" ref="770288842"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">19</int>
-						<reference key="object" ref="396146411"/>
-						<reference key="parent" ref="795465199"/>
+						<reference key="object" ref="348599232"/>
+						<reference key="parent" ref="245663918"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">-3</int>
-						<reference key="object" ref="594137273"/>
+						<reference key="object" ref="566445917"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Application</string>
 					</object>
@@ -247,12 +247,12 @@
 				<dictionary class="NSMutableDictionary" key="9.IBAttributePlaceholdersKey">
 					<object class="IBAccessibilityAttribute" key="AccessibilityDescription">
 						<string key="name">AccessibilityDescription</string>
-						<reference key="object" ref="282786738"/>
+						<reference key="object" ref="770288842"/>
 						<string key="accessibilityValue">line number</string>
 					</object>
 					<object class="IBToolTipAttribute" key="ToolTip">
 						<string key="name">ToolTip</string>
-						<reference key="object" ref="282786738"/>
+						<reference key="object" ref="770288842"/>
 						<string key="toolTip">Line number to select. Can specify a range (e.g. 10-20), or line number relative to current selection (e.g. -5).</string>
 					</object>
 				</dictionary>
