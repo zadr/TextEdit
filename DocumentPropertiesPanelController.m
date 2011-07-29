@@ -98,7 +98,7 @@
 
     // Make sure we start inspecting the document that is currently active, and start observing changes
     [self activeDocumentChanged];
-    [NSApp addObserver:self forKeyPath:@"mainWindow.windowController.document" options:0 context:objc_unretainedPointer([DocumentPropertiesPanelController class])];
+    [NSApp addObserver:self forKeyPath:@"mainWindow.windowController.document" options:0 context:(void *)objc_unretainedPointer([DocumentPropertiesPanelController class])];
 
     NSWindow *window = [self window];
     [window setIdentifier:@"DocumentProperties"];
