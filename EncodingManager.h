@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 enum {
-    NoStringEncoding = 0xFFFFFFFF
+    NoStringEncoding = INT_MAX
 };
 
 enum {

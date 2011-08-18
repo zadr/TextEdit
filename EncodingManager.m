@@ -207,24 +207,23 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 /* Returns the actual enabled list of encodings.
 */
 - (NSArray *)enabledEncodings {
-    static const NSInteger plainTextFileStringEncodingsSupported[] = {
+    static const CFStringEncoding plainTextFileStringEncodingsSupported[] = {
         kCFStringEncodingUnicode, kCFStringEncodingUTF8, kCFStringEncodingMacRoman, kCFStringEncodingWindowsLatin1, kCFStringEncodingMacJapanese, kCFStringEncodingShiftJIS, kCFStringEncodingMacChineseTrad, kCFStringEncodingMacKorean, kCFStringEncodingMacChineseSimp, kCFStringEncodingGB_18030_2000, -1
     };
     if (encodings == nil) {
         NSMutableArray *encs = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"Encodings"] mutableCopy];
         if (encs == nil) {
-            NSStringEncoding defaultEncoding = [NSString defaultCStringEncoding];
-            NSStringEncoding encoding;
+            unsigned long encoding;
             BOOL hasDefault = NO;
             NSInteger cnt = 0;
             encs = [[NSMutableArray alloc] init];
-            while (plainTextFileStringEncodingsSupported[cnt] != -1) {
+            while (plainTextFileStringEncodingsSupported[cnt] != kCFStringEncodingInvalidId) {
                 if ((encoding = CFStringConvertEncodingToNSStringEncoding(plainTextFileStringEncodingsSupported[cnt++])) != kCFStringEncodingInvalidId) {
                     [encs addObject:[NSNumber numberWithUnsignedInteger:encoding]];
-                    if (encoding == defaultEncoding) hasDefault = YES;
+                    if (encoding == [NSString defaultCStringEncoding]) hasDefault = YES;
                 }
             }
-            if (!hasDefault) [encs addObject:[NSNumber numberWithUnsignedInteger:defaultEncoding]];
+            if (!hasDefault) [encs addObject:[NSNumber numberWithUnsignedInteger:[NSString defaultCStringEncoding]]];
         }
         encodings = encs;
     }

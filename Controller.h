@@ -10,8 +10,8 @@
     IBOutlet LinePanelController *__unsafe_unretained lineController;
 }
 
-@property (unsafe_unretained) Preferences *preferencesController;
-@property (unsafe_unretained) DocumentPropertiesPanelController *propertiesController;
-@property (unsafe_unretained) LinePanelController *lineController;
+@property (atomic, unsafe_unretained) Preferences *preferencesController;
+@property (atomic, unsafe_unretained) DocumentPropertiesPanelController *propertiesController;
+@property (atomic, unsafe_unretained) LinePanelController *lineController;
 
 @end
