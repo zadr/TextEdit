@@ -1,43 +1,52 @@
+
 /*
-        EncodingManager.m
-        Copyright (c) 2002-2011 by Apple Computer, Inc., all rights reserved.
-        Author: Ali Ozer
-        
-        Helper class providing additional functionality for character encodings.
-        This file also defines the EncodingPopUpButtonCell class.
-*/
-/*
- IMPORTANT:  This Apple software is supplied to you by Apple Computer, Inc. ("Apple") in
- consideration of your agreement to the following terms, and your use, installation,
- modification or redistribution of this Apple software constitutes acceptance of these
- terms.  If you do not agree with these terms, please do not use, install, modify or
+     File: EncodingManager.m
+ Abstract: Helper class providing additional functionality for character encodings.
+ This file also defines the EncodingPopUpButtonCell class.
+ 
+  Version: 1.8
+ 
+ Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
+ Inc. ("Apple") in consideration of your agreement to the following
+ terms, and your use, installation, modification or redistribution of
+ this Apple software constitutes acceptance of these terms.  If you do
+ not agree with these terms, please do not use, install, modify or
  redistribute this Apple software.
-
- In consideration of your agreement to abide by the following terms, and subject to these
- terms, Apple grants you a personal, non-exclusive license, under Apple's copyrights in
- this original Apple software (the "Apple Software"), to use, reproduce, modify and
- redistribute the Apple Software, with or without modifications, in source and/or binary
- forms; provided that if you redistribute the Apple Software in its entirety and without
- modifications, you must retain this notice and the following text and disclaimers in all
- such redistributions of the Apple Software.  Neither the name, trademarks, service marks
- or logos of Apple Computer, Inc. may be used to endorse or promote products derived from
- the Apple Software without specific prior written permission from Apple. Except as expressly
- stated in this notice, no other rights or licenses, express or implied, are granted by Apple
- herein, including but not limited to any patent rights that may be infringed by your
- derivative works or by other works in which the Apple Software may be incorporated.
-
- The Apple Software is provided by Apple on an "AS IS" basis.  APPLE MAKES NO WARRANTIES,
- EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION THE IMPLIED WARRANTIES OF NON-INFRINGEMENT,
- MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS
- USE AND OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
-
- IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL OR CONSEQUENTIAL
- DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE,
- REPRODUCTION, MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED AND
- WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR
- OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ 
+ In consideration of your agreement to abide by the following terms, and
+ subject to these terms, Apple grants you a personal, non-exclusive
+ license, under Apple's copyrights in this original Apple software (the
+ "Apple Software"), to use, reproduce, modify and redistribute the Apple
+ Software, with or without modifications, in source and/or binary forms;
+ provided that if you redistribute the Apple Software in its entirety and
+ without modifications, you must retain this notice and the following
+ text and disclaimers in all such redistributions of the Apple Software.
+ Neither the name, trademarks, service marks or logos of Apple Inc. may
+ be used to endorse or promote products derived from the Apple Software
+ without specific prior written permission from Apple.  Except as
+ expressly stated in this notice, no other rights or licenses, express or
+ implied, are granted by Apple herein, including but not limited to any
+ patent rights that may be infringed by your derivative works or by other
+ works in which the Apple Software may be incorporated.
+ 
+ The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
+ MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
+ THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
+ FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
+ OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
+ 
+ IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
+ OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
+ MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
+ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
+ STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ 
+ Copyright (C) 2013 Apple Inc. All Rights Reserved.
+ 
+ */
 
 #import <Cocoa/Cocoa.h>
 #import "EncodingManager.h"
@@ -68,6 +77,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
 }
 
 /* Do not allow selecting the "Customize" item and the separator before it. (Note that the customize item can be chosen and an action will be sent, but the selection doesn't change to it.)
@@ -92,12 +102,23 @@
 static EncodingManager *sharedInstance = nil;
 
 + (EncodingManager *)sharedInstance {
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		sharedInstance = [[self alloc] init];
-	});
-	return sharedInstance;
+    return sharedInstance ? sharedInstance : [[self alloc] init];
 }
+
+- (id)init {
+    if (sharedInstance) {		// We just have one instance of the EncodingManager class, return that one instead
+        [self release];
+    } else if (self = [super init]) {
+        sharedInstance = self;
+    }
+    return sharedInstance;
+}
+
+- (void)dealloc {
+    if (self != sharedInstance) [super dealloc];	// Don't free the shared instance
+}
+
+
 
 /* Sort using the equivalent Mac encoding as the major key. Secondary key is the actual encoding value, which works well enough. We treat Unicode encodings as special case, putting them at top of the list.
 */
@@ -124,17 +145,15 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         CFStringEncoding *tmp;
         NSInteger cnt, num = 0;
         while (cfEncodings[num] != kCFStringEncodingInvalidId) num++;	// Count
-		if (num) {
-			tmp = malloc(sizeof(CFStringEncoding) * num);
-			memcpy(tmp, cfEncodings, sizeof(CFStringEncoding) * num);	// Copy the list
-			qsort(tmp, num, sizeof(CFStringEncoding), encodingCompare);	// Sort it
-			allEncodings = [[NSMutableArray alloc] init];			// Now put it in an NSArray
-			for (cnt = 0; cnt < num; cnt++) {
-				NSStringEncoding nsEncoding = CFStringConvertEncodingToNSStringEncoding(tmp[cnt]);
-				if (nsEncoding && [NSString localizedNameOfStringEncoding:nsEncoding]) [allEncodings addObject:[NSNumber numberWithUnsignedInteger:nsEncoding]];
-			}
-			free(tmp);
-		}
+        tmp = malloc(sizeof(CFStringEncoding) * num);
+        memcpy(tmp, cfEncodings, sizeof(CFStringEncoding) * num);	// Copy the list
+        qsort(tmp, num, sizeof(CFStringEncoding), encodingCompare);	// Sort it
+        allEncodings = [[NSMutableArray alloc] init];			// Now put it in an NSArray
+        for (cnt = 0; cnt < num; cnt++) {
+            NSStringEncoding nsEncoding = CFStringConvertEncodingToNSStringEncoding(tmp[cnt]);
+            if (nsEncoding && [NSString localizedNameOfStringEncoding:nsEncoding]) [allEncodings addObject:[NSNumber numberWithUnsignedInteger:nsEncoding]];
+        }
+        free(tmp);
     }
     return allEncodings;
 }
@@ -207,23 +226,24 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 /* Returns the actual enabled list of encodings.
 */
 - (NSArray *)enabledEncodings {
-    static const CFStringEncoding plainTextFileStringEncodingsSupported[] = {
+    static const NSInteger plainTextFileStringEncodingsSupported[] = {
         kCFStringEncodingUnicode, kCFStringEncodingUTF8, kCFStringEncodingMacRoman, kCFStringEncodingWindowsLatin1, kCFStringEncodingMacJapanese, kCFStringEncodingShiftJIS, kCFStringEncodingMacChineseTrad, kCFStringEncodingMacKorean, kCFStringEncodingMacChineseSimp, kCFStringEncodingGB_18030_2000, -1
     };
     if (encodings == nil) {
         NSMutableArray *encs = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"Encodings"] mutableCopy];
         if (encs == nil) {
-            unsigned long encoding;
+            NSStringEncoding defaultEncoding = [NSString defaultCStringEncoding];
+            NSStringEncoding encoding;
             BOOL hasDefault = NO;
             NSInteger cnt = 0;
             encs = [[NSMutableArray alloc] init];
-            while (plainTextFileStringEncodingsSupported[cnt] != kCFStringEncodingInvalidId) {
+            while (plainTextFileStringEncodingsSupported[cnt] != -1) {
                 if ((encoding = CFStringConvertEncodingToNSStringEncoding(plainTextFileStringEncodingsSupported[cnt++])) != kCFStringEncodingInvalidId) {
                     [encs addObject:[NSNumber numberWithUnsignedInteger:encoding]];
-                    if (encoding == [NSString defaultCStringEncoding]) hasDefault = YES;
+                    if (encoding == defaultEncoding) hasDefault = YES;
                 }
             }
-            if (!hasDefault) [encs addObject:[NSNumber numberWithUnsignedInteger:[NSString defaultCStringEncoding]]];
+            if (!hasDefault) [encs addObject:[NSNumber numberWithUnsignedInteger:defaultEncoding]];
         }
         encodings = encs;
     }
@@ -278,22 +298,26 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         if (([encodingNumber unsignedIntegerValue] != NoStringEncoding) && ([cell state] == NSOnState)) [encs addObject:encodingNumber];
     }
 
+    [encodings autorelease];
     encodings = encs;
 
     [self noteEncodingListChange:YES updateList:NO postNotification:YES];
 }
 
 - (IBAction)clearAll:(id)sender {
-    encodings = [NSArray array];				// Empty encodings list
+    [encodings autorelease];
+    encodings = [[NSArray array] retain];				// Empty encodings list
     [self noteEncodingListChange:YES updateList:YES postNotification:YES];
 }
 
 - (IBAction)selectAll:(id)sender {
-    encodings = [[self class] allAvailableStringEncodings];	// All encodings
+    [encodings autorelease];
+    encodings = [[[self class] allAvailableStringEncodings] retain];	// All encodings
     [self noteEncodingListChange:YES updateList:YES postNotification:YES];
 }
 
 - (IBAction)revertToDefault:(id)sender {
+    [encodings autorelease];
     encodings = nil;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Encodings"];
     (void)[self enabledEncodings];					// Regenerate default list
